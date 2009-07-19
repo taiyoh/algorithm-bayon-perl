@@ -9,13 +9,13 @@ BEGIN {
     use_ok "Algorithm::Bayon::File";
 }
 
-my $cmd = Algorithm::Bayon::Cmd->new( number => 3, debug => 1 );
+my $cmd = Algorithm::Bayon::Cmd->new( number => 3 );
 $cmd->run("$FindBin::Bin/test_data.tsv");
 
 my $dumped_tsv = $cmd->stdout;
 
 do {
-    my $file = Algorithm::Bayon::File->new( debug => 1 );
+    my $file = Algorithm::Bayon::File->new;
     my @labels = qw/foo bar baz/;
     my $data_list = [
         [qw/1 a 2 b 3 c/],
@@ -32,7 +32,7 @@ _TSV_
 };
 
 do {
-    my $file = Algorithm::Bayon::File->new( debug => 1 );
+    my $file = Algorithm::Bayon::File->new;
     my $data_list = [
         [qw/1 a 2 b 3 c/],
         [qw/4 d 5 e 6 f/],

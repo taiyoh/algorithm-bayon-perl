@@ -19,7 +19,7 @@ do {
     my $args_str = "file => '/tmp/classify_cmd.tsv', inv_keys => 5, inv_size => 150";
     diag $args_str;
     my %a    = eval "($args_str)";
-    my $cmd  = Algorithm::Bayon::CmdClassify->new(%a, debug => 1 );
+    my $cmd  = Algorithm::Bayon::CmdClassify->new(%a);
     my $args = join ' ', $cmd->build_command;
     is( $args, q{--classify=/tmp/classify_cmd.tsv --inv-keys=5 --inv-size=150 --classify-size=20});
 };
@@ -29,12 +29,12 @@ do {
     diag $args_str;
     my %a = eval "($args_str)";
 
-    my $_cmd = Algorithm::Bayon::Cmd->new( number => 3, debug => 1, clvector => $a{file} );
+    my $_cmd = Algorithm::Bayon::Cmd->new( number => 3, clvector => $a{file} );
     $_cmd->run("$FindBin::Bin/test_data.tsv");
-    my $file = Algorithm::Bayon::File->new( debug => 1 );
+    my $file = Algorithm::Bayon::File->new;
     my $filename = $file->to_file(sub { print $_ $_cmd->stdout });
 
-    my $cmd = Algorithm::Bayon::CmdClassify->new( %a, debug => 1 );
+    my $cmd = Algorithm::Bayon::CmdClassify->new( %a );
     $cmd->run("$FindBin::Bin/test_data.tsv");
     ok($cmd->stdout);
     unlink '/tmp/classify_cmd.tsv';

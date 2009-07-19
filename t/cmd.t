@@ -43,7 +43,7 @@ do {
 };
 
 do {
-    my $cmd = Algorithm::Bayon::Cmd->new( number => 3, debug => 1 );
+    my $cmd = Algorithm::Bayon::Cmd->new( number => 3 );
     $cmd->run("$FindBin::Bin/test_data.tsv");
     ok($cmd->stdout);
     #diag $cmd->stdout;

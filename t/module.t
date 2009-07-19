@@ -33,7 +33,7 @@ my $data3 = {
 };
 
 do {
-    my $bayon = Algorithm::Bayon->new( debug => 1 );
+    my $bayon = Algorithm::Bayon->new;
     $bayon->number(3);
 
     my $result = $bayon->cluster( data => $data, labels => \@label );
@@ -44,7 +44,7 @@ do {
 };
 
 do {
-    my $bayon = Algorithm::Bayon->new( debug => 1 );
+    my $bayon = Algorithm::Bayon->new;
     $bayon->number(3);
 
     my $result = $bayon->cluster( data => $data2, labels => \@label );
@@ -54,7 +54,7 @@ do {
 
 do {
 
-    my $bayon = Algorithm::Bayon->new( debug => 1 );
+    my $bayon = Algorithm::Bayon->new;
     $bayon->number(3);
 
     my $result = $bayon->cluster( data => $data3 );
@@ -69,7 +69,7 @@ do {
 
 do {
 # TODO: やっぱりインターフェイスがあまりよくない気が…
-    my $bayon = Algorithm::Bayon->new( debug => 1 );
+    my $bayon = Algorithm::Bayon->new;
     $bayon->number(3);
     $bayon->clvector('/tmp/classify.tsv');
 

@@ -17,7 +17,6 @@ my $dumped_tsv = $cmd->stdout;
 
 do {
     my $result = Algorithm::Bayon::Result->new(
-        debug => 1,
         point => 0,
         raw   => $dumped_tsv,
         input => "$FindBin::Bin/test_data.tsv"
@@ -34,7 +33,6 @@ do {
 
 do {
     my $result = Algorithm::Bayon::Result->new(
-        debug => 1,
         point => 0,
         raw   => $dumped_tsv,
         input => "$FindBin::Bin/test_data.tsv",
@@ -48,7 +46,6 @@ do {
 
 do {
     my $result = Algorithm::Bayon::Result->new(
-        debug => 1,
         point => 0,
         raw   => $dumped_tsv,
         input => "$FindBin::Bin/test_data.tsv",
