@@ -9,6 +9,15 @@ sub dump_file {
     my $self = shift;
 
     my ( $data, $labels ) = @_;
+    if ( ref $data eq 'HASH' ) {
+        $labels = [];
+        my $new_data = [];
+        for my $k ( keys %$data ) {
+            push @$labels,   $k;
+            push @$new_data, $data->{$k};
+        }
+        $data = $new_data;
+    }
     $self->to_file(sub {
         my $len = @$data - 1;
         for my $n ( 0 .. $len ) {

@@ -6,6 +6,8 @@ use FindBin;
 
 BEGIN { use_ok "Algorithm::Bayon"; }
 
+my @label = qw/foo bar baz hoge fuga/;
+
 my $data = [
     [qw/a 1 b 3 c 9 d 7 e 0 f 2 g 5 h 1 i 3 j 6/],
     [qw/a 7 b 8 c 0 d 5 e 3 f 4 g 1 h 9 i 7 j 4/],
@@ -14,7 +16,21 @@ my $data = [
     [qw/a 4 b 1 c 4 d 3 e 8 f 6 g 2 h 6 i 9 j 2/]
 ];
 
-my @label = qw/foo bar baz hoge fuga/;
+my $data2 = [
+    { a => 1, b => 3, c => 9, d => 7, e => 0, f => 2, g => 5, h => 1, i => 3, j => 6 },
+    { a => 7, b => 8, c => 0, d => 5, e => 3, f => 4, g => 1, h => 9, i => 7, j => 4 },
+    { a => 2, b => 2, c => 1, d => 8, e => 6, f => 7, g => 3, h => 8, i => 4, j => 0 },
+    { a => 0, b => 5, c => 2, d => 9, e => 4, f => 4, g => 8, h => 7, i => 5, j => 3 },
+    { a => 4, b => 1, c => 4, d => 3, e => 8, f => 6, g => 2, h => 6, i => 9, j => 2 }
+];
+
+my $data3 = {
+    foo  => [qw/a 1 b 3 c 9 d 7 e 0 f 2 g 5 h 1 i 3 j 6/],
+    bar  => [qw/a 7 b 8 c 0 d 5 e 3 f 4 g 1 h 9 i 7 j 4/],
+    baz  => [qw/a 2 b 2 c 1 d 8 e 6 f 7 g 3 h 8 i 4 j 0/],
+    hoge => [qw/a 0 b 5 c 2 d 9 e 4 f 4 g 8 h 7 i 5 j 3/],
+    fuga => [qw/a 4 b 1 c 4 d 3 e 8 f 6 g 2 h 6 i 9 j 2/]
+};
 
 do {
     my $bayon = Algorithm::Bayon->new( debug => 1 );
@@ -28,19 +44,26 @@ do {
 };
 
 do {
-    my $data2 = [
-        {a => 1, b => 3, c => 9, d => 7, e => 0, f => 2, g => 5, h => 1, i => 3, j => 6},
-        {a => 7, b => 8, c => 0, d => 5, e => 3, f => 4, g => 1, h => 9, i => 7, j => 4},
-        {a => 2, b => 2, c => 1, d => 8, e => 6, f => 7, g => 3, h => 8, i => 4, j => 0},
-        {a => 0, b => 5, c => 2, d => 9, e => 4, f => 4, g => 8, h => 7, i => 5, j => 3},
-        {a => 4, b => 1, c => 4, d => 3, e => 8, f => 6, g => 2, h => 6, i => 9, j => 2}
-    ];
-
     my $bayon = Algorithm::Bayon->new( debug => 1 );
     $bayon->number(3);
 
     my $result = $bayon->cluster( data => $data2, labels => \@label );
     isa_ok( $result, 'Algorithm::Bayon::Result' );
+    #diag $result->raw;
+};
+
+do {
+
+    my $bayon = Algorithm::Bayon->new( debug => 1 );
+    $bayon->number(3);
+
+    my $result = $bayon->cluster( data => $data3 );
+    isa_ok( $result, 'Algorithm::Bayon::Result' );
+
+    my $result2 = $bayon->cluster( $data3 );
+    isa_ok( $result2, 'Algorithm::Bayon::Result' );
+    is($result2->raw, $result->raw, 'same data');
+
     #diag $result->raw;
 };
 

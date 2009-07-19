@@ -53,9 +53,23 @@ no Any::Moose;
 
 sub cluster {
     my $self = shift;
-    my %args = @_;
-    my $data = $args{data};
-    my $labels = $args{labels} || [];
+    my ($data, $labels);
+    if ( @_ > 1 ) {
+        my %args = @_;
+        $data = $args{data};
+        $labels = $args{labels} || [];
+    }
+    else {
+        if ( $_[0]->{data} ) {
+            my %args = %{ $_[0] };
+            $data = $args{data};
+            $labels = $args{labels} || [];
+        }
+        else {
+            $data   = $_[0];
+            $labels = [];
+        }
+    }
 
     my $filename = $self->dump_file($data, $labels);
     $self->cmd->run($filename);
