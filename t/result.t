@@ -52,8 +52,8 @@ do {
         point => 0,
         raw   => $dumped_tsv,
         input => "$FindBin::Bin/test_data.tsv",
+        centroid => $cmd->clvector
     );
-    $result->centroid($cmd->clvector) if $cmd->clvector;
     my $filename = $result->to_file();
     is(`cat $filename`, $dumped_tsv, 'data dumped');
     my $classified_res = $result->to_classify;

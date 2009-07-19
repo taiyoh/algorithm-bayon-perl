@@ -53,6 +53,22 @@ sub BUILD {
                 }
             )
         );
+
+        $cls->meta->add_method(
+            to_classify => sub {
+                my $self = shift;
+                $self->classify->run( $self->input );
+
+                my $klass = ref $self;
+                return $klass->new(
+                    point      => 1,
+                    raw        => $self->classify->stdout,
+                    debug      => $self->debug,
+                    input      => $self->input,
+                    classified => 1
+                );
+            }
+        ) if $cls->centroid;
     }
 }
 
@@ -64,22 +80,6 @@ sub to_list {
         { id => $id, list => $fields }
     } split "\n", $self->raw;
     return wantarray ? @data_list : \@data_list;
-}
-
-sub to_classify {
-    my $self = shift;
-    Carp::croak 'already classified!!!' if $self->classified;
-    Carp::croak 'centroid is not defined' unless $self->centroid;
-    $self->classify->run($self->input);
-
-    my $klass = ref $self;
-    return $klass->new(
-        point      => 1,
-        raw        => $self->classify->stdout,
-        debug      => $self->debug,
-        input      => $self->input,
-        classified => 1
-    );
 }
 
 1;

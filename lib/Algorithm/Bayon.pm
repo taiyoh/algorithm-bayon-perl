@@ -8,7 +8,7 @@ use Algorithm::Bayon::File;
 use Algorithm::Bayon::Cmd;
 use Algorithm::Bayon::Result;
 
-our $VERSION = '0.001_1';
+our $VERSION = '0.001';
 
 #   -n, --number=num      分割するクラスタの数
 #   -l, --limit=lim       分割ポイントの閾値
@@ -42,7 +42,7 @@ has file => (
     is => 'rw',
     isa => 'Algorithm::Bayon::File',
     lazy => 1,
-    handles => [qw/dump_file load/],
+    handles => [qw/dump_file/],
     default => sub {
         my $self = shift;
         Algorithm::Bayon::File->new(debug => $self->debug);
@@ -77,14 +77,16 @@ sub cluster {
         Carp::confess $self->cmd->stderr;
     }
 
-    my $result = Algorithm::Bayon::Result->new(
-        point    => $self->cmd->point,
-        input    => $filename,
-        raw      => $self->cmd->stdout,
-        debug    => $self->debug
+    return Algorithm::Bayon::Result->new(
+        point => $self->cmd->point,
+        input => $filename,
+        raw   => $self->cmd->stdout,
+        debug => $self->debug,
+        %{  $self->cmd->clvector
+            ? { centroid => $self->cmd->clvector }
+            : {}
+            }
     );
-    $result->centroid($self->cmd->clvector) if $self->cmd->clvector;
-    return $result;
 }
 
 1;
